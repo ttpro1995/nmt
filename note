@@ -1,0 +1,65 @@
+mkdir /tmp/nmt_model
+
+python -m nmt.nmt \
+    --src=vi --tgt=en \
+    --vocab_prefix=/data/nlp/iwslt15/vocab  \
+    --train_prefix=/data/nlp/iwslt15/train \
+    --dev_prefix=/data/nlp/iwslt15/tst2012  \
+    --test_prefix=/data/nlp/iwslt15/tst2013 \
+    --out_dir=/home/tt/model/nmt_model \
+    --num_train_steps=12000 \
+    --steps_per_stats=100 \
+    --num_layers=2 \
+    --num_units=128 \
+    --dropout=0.2 \
+    --metrics=bleu
+
+
+python -m nmt.nmt \
+    --run_name=default \
+    --src=vi --tgt=en \
+    --vocab_prefix=/data/nlp/iwslt15/vocab  \
+    --train_prefix=/data/nlp/iwslt15/train \
+    --dev_prefix=/data/nlp/iwslt15/tst2012  \
+    --test_prefix=/data/nlp/iwslt15/tst2013 \
+    --out_dir=/home/tt/model/nmt_model \
+    --num_train_steps=12000 \
+    --steps_per_stats=100 \
+    --num_layers=2 \
+    --num_units=128 \
+    --dropout=0.2 \
+    --metrics=bleu
+
+
+
+
+--src=vi --tgt=en
+    --vocab_prefix=/data/nlp/iwslt15/vocab
+    --train_prefix=/data/nlp/iwslt15/train
+    --dev_prefix=/data/nlp/iwslt15/tst2012
+    --test_prefix=/data/nlp/iwslt15/tst2013
+    --out_dir=/home/tt/model/nmt_model
+    --num_train_steps=12000
+    --steps_per_stats=100
+    --num_layers=2
+    --num_units=128
+    --dropout=0.2
+    --metrics=bleu
+
+======================================================
+
+python -m nmt.nmt \
+    --run_name=attention_scaled_luong_1 \
+    --attention=scaled_luong \
+    --src=vi --tgt=en \
+    --vocab_prefix=/data/nlp/iwslt15/vocab  \
+    --train_prefix=/data/nlp/iwslt15/train \
+    --dev_prefix=/data/nlp/iwslt15/tst2012  \
+    --test_prefix=/data/nlp/iwslt15/tst2013 \
+    --out_dir=/home/tt/model/nmt_model/attention_scaled_luong_1 \
+    --num_train_steps=12000 \
+    --steps_per_stats=100 \
+    --num_layers=2 \
+    --num_units=128 \
+    --dropout=0.2 \
+    --metrics=bleu

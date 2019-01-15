@@ -20,6 +20,8 @@ import os
 import random
 import time
 
+import mlflow
+
 import tensorflow as tf
 
 from . import attention_model
@@ -376,6 +378,8 @@ def print_step_info(prefix, global_step, info, result_summary, log_f):
        time.ctime()),
       log_f)
 
+  mlflow.log_metric("train_ppl", info["train_ppl"])
+
 
 def add_info_summaries(summary_writer, global_step, info):
   """Add stuffs in info to summaries."""
@@ -712,6 +716,7 @@ def _external_eval(model, global_step, sess, hparams, iterator,
 
   if decode:
     utils.print_out("# External evaluation, global step %d" % global_step)
+
 
   sess.run(iterator.initializer, feed_dict=iterator_feed_dict)
 

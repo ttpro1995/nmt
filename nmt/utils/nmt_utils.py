@@ -24,6 +24,8 @@ import tensorflow as tf
 from ..utils import evaluation_utils
 from ..utils import misc_utils as utils
 
+import mlflow
+
 __all__ = ["decode_and_evaluate", "get_translation"]
 
 
@@ -89,6 +91,9 @@ def decode_and_evaluate(name,
           subword_option=subword_option)
       evaluation_scores[metric] = score
       utils.print_out("  %s %s: %.1f" % (metric, name, score))
+
+      # mlflow log metric
+      mlflow.log_metric(str(metric)+"_"+str(name), score)
 
   return evaluation_scores
 
