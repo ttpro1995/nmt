@@ -21,6 +21,8 @@ import os
 import random
 import sys
 
+from nmt.singleton_object import SingletonObject
+
 # mlflow
 from mlflow import log_metric, log_param, log_artifact
 import mlflow
@@ -35,7 +37,13 @@ from .utils import evaluation_utils
 from .utils import misc_utils as utils
 from .utils import vocab_utils
 
+
+# Import comet_ml in the top of your file
+from comet_ml import Experiment
+
+
 utils.check_tensorflow_version()
+
 
 FLAGS = None
 
@@ -704,6 +712,18 @@ def mlflow_log_args(FLAGS):
       log_param(key, args_dict[key])
 
 
+def comet_ml_log_args(FLAGS, experiment):
+  """
+  https://www.comet.ml/
+  use comet ml
+
+  :param FLAGS:
+  :param experiment:
+  :return:
+  """
+  args_dict = vars(FLAGS)
+  experiment.log_multiple_params(args_dict)
+
 
 def main(unused_argv):
   default_hparams = create_hparams(FLAGS)
@@ -716,7 +736,15 @@ if __name__ == "__main__":
   nmt_parser = argparse.ArgumentParser()
   add_arguments(nmt_parser)
   FLAGS, unparsed = nmt_parser.parse_known_args()
+
+  # mlflow
   mlflow.start_run(run_name=FLAGS.run_name)
   mlflow_log_args(FLAGS)
+
+  # Create an comet ml experiment with your api key
+  singleton = SingletonObject()
+  experiment = singleton.get_comet_ml_experiment()
+  comet_ml_log_args(FLAGS, experiment)
+
   tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
   mlflow.end_run()

@@ -32,6 +32,8 @@ from . import model_helper
 from .utils import misc_utils as utils
 from .utils import nmt_utils
 
+from nmt.singleton_object import SingletonObject
+
 utils.check_tensorflow_version()
 
 __all__ = [
@@ -379,6 +381,8 @@ def print_step_info(prefix, global_step, info, result_summary, log_f):
       log_f)
 
   mlflow.log_metric("train_ppl", info["train_ppl"])
+  experiment = SingletonObject.getInstance().get_comet_ml_experiment()
+  experiment.log_metric("train_ppl", info["train_ppl"])
 
 
 def add_info_summaries(summary_writer, global_step, info):
@@ -523,7 +527,12 @@ def train(hparams, scope=None, target_session=""):
     start_time = time.time()
     try:
       step_result = loaded_train_model.train(train_sess)
+
+      # comet ml log epoch here
+      experiment = SingletonObject().comet_ml_experiment()
       hparams.epoch_step += 1
+      experiment.set_step(hparams.epoch_step)
+
     except tf.errors.OutOfRangeError:
       # Finished going through the training dataset.  Go to next epoch.
       hparams.epoch_step = 0

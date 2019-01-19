@@ -25,6 +25,7 @@ from ..utils import evaluation_utils
 from ..utils import misc_utils as utils
 
 import mlflow
+from nmt.singleton_object import SingletonObject
 
 __all__ = ["decode_and_evaluate", "get_translation"]
 
@@ -94,6 +95,9 @@ def decode_and_evaluate(name,
 
       # mlflow log metric
       mlflow.log_metric(str(metric)+"_"+str(name), score)
+      singleton = SingletonObject.getInstance()
+      experiment = singleton.get_comet_ml_experiment()
+      experiment.log_metric(str(metric)+"_"+str(name), score)
 
   return evaluation_scores
 
