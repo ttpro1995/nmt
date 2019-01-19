@@ -4,7 +4,7 @@ from comet_ml import Experiment
 class SingletonObject:
   __instance = None
   comet_ml_experiment = Experiment(api_key="S3mM1eMq6NumMxk2QJAXASkUM",
-                          project_name="nmt", workspace="ttpro1995")
+                        project_name="nmt", workspace="ttpro1995", auto_output_logging="simple")
 
   @staticmethod
   def getInstance():
