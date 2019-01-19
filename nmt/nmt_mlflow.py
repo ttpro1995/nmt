@@ -722,7 +722,7 @@ def comet_ml_log_args(FLAGS, experiment):
   :return:
   """
   args_dict = vars(FLAGS)
-  experiment.log_multiple_params(args_dict)
+  experiment.log_parameters(args_dict)
 
 
 def main(unused_argv):

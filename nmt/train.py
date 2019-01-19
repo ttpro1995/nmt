@@ -529,7 +529,7 @@ def train(hparams, scope=None, target_session=""):
       step_result = loaded_train_model.train(train_sess)
 
       # comet ml log epoch here
-      experiment = SingletonObject().comet_ml_experiment()
+      experiment = SingletonObject.getInstance().get_comet_ml_experiment()
       hparams.epoch_step += 1
       experiment.set_step(hparams.epoch_step)
 
