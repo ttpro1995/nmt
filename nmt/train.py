@@ -710,8 +710,8 @@ def _sample_decode(model, global_step, sess, hparams, iterator, src_data,
   # utils.print_out("    src: %s" % src_data[decode_id])
   # utils.print_out("    ref: %s" % tgt_data[decode_id])
   # meow
-  print("    src: %s" % src_data[decode_id])
-  print("    ref: %s" % tgt_data[decode_id])
+  print("    src: %s" % src_data[decode_id].encode('utf-8'))
+  print("    ref: %s" % tgt_data[decode_id].encode('utf-8'))
   utils.print_out(b"    nmt: " + translation)
 
 
