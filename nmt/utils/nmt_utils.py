@@ -64,7 +64,9 @@ def decode_and_evaluate(name,
 
       while True:
         try:
-          nmt_outputs, _ = model.decode(sess)
+          # nmt_outputs, _ = model.decode(sess)
+          nmt_outputs, infer_summary = model.decode(sess)
+
           if infer_mode != "beam_search":
             nmt_outputs = np.expand_dims(nmt_outputs, 0)
 

@@ -23,7 +23,7 @@ import os
 import random
 import sys
 
-from nmt.singleton_object import SingletonObject
+from .singleton_object import SingletonObject
 
 # mlflow
 from mlflow import log_metric, log_param, log_artifact
@@ -682,7 +682,7 @@ def run_main(flags, default_hparams, train_fn, inference_fn, target_session=""):
     hparams.inference_indices = None
     if flags.inference_list:
       (hparams.inference_indices) = (
-          [int(token)  for token in flags.inference_list.split(",")])
+          [int(token) for token in flags.inference_list.split(",")])
 
     # Inference
     ckpt = flags.ckpt

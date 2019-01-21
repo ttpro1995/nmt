@@ -151,6 +151,20 @@ class AttentionModel(model.Model):
       return tf.no_op()
     return _create_attention_images_summary(self.final_context_state)
 
+  def create_attention_image(self, hparams):
+    if not self.has_attention or hparams.infer_mode == "beam_search":
+      return tf.no_op()
+
+    # TODO: generate image here
+    """create attention image and attention summary."""
+    attention_images = (self.final_context_state.alignment_history.stack())
+    # Reshape to (batch, src_seq_len, tgt_seq_len,1)
+    attention_images = tf.expand_dims(
+      tf.transpose(attention_images, [1, 2, 0]), -1)
+    # Scale to range [0, 255]
+    attention_images *= 255
+    return attention_images
+
 
 def create_attention_mechanism(attention_option, num_units, memory,
                                source_sequence_length, mode):
@@ -192,3 +206,5 @@ def _create_attention_images_summary(final_context_state):
   attention_images *= 255
   attention_summary = tf.summary.image("attention_images", attention_images)
   return attention_summary
+
+
