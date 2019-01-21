@@ -1,0 +1,8 @@
+
+nmt/__pycache__/
+
+nmt/utils/__pycache__/
+
+nmt/scripts/__pycache__/
+
+\.idea/
