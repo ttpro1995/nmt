@@ -747,6 +747,7 @@ if __name__ == "__main__":
   singleton = SingletonObject()
   experiment = singleton.get_comet_ml_experiment()
   comet_ml_log_args(FLAGS, experiment)
+  experiment.set_name(FLAGS.run_name)
 
   tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
   mlflow.end_run()
