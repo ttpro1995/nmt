@@ -62,6 +62,9 @@ def add_arguments(parser):
   # name
   parser.add_argument("--run_name", type=str, default="default_run", help="MLflow run name")
 
+  # disable comet
+  parser.add_argument("--disable_comet", type=int, default=0, help="0|1")
+
   # network
   parser.add_argument("--num_units", type=int, default=32, help="Network size.")
   parser.add_argument("--num_layers", type=int, default=2,
@@ -744,7 +747,10 @@ if __name__ == "__main__":
   mlflow_log_args(FLAGS)
 
   # Create an comet ml experiment with your api key
-  singleton = SingletonObject()
+  disabled_comet = False
+  if FLAGS.disable_comet == 1:
+    disabled_comet = True
+  singleton = SingletonObject(disabled=disabled_comet)
   experiment = singleton.get_comet_ml_experiment()
   comet_ml_log_args(FLAGS, experiment)
   experiment.set_name(FLAGS.run_name)
